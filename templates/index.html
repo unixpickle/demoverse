@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Demoverse Index</title>
+
+    <link rel="stylesheet" href="/assets/css/index.css" type="text/css">
+  </head>
+  <body>
+    {{range .}}
+    <a class="game" href="/play/{{.name}}/">{{.name}}</a>
+    <br>
+    {{end}}
+  </body>
+</html>
