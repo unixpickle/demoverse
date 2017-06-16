@@ -14,7 +14,7 @@
     this._eventHandler = (e) => this._gotEvent(e);
 
     var butToEvt = {
-      'play-button': () => this._onPlay(),
+      'paused-overlay': () => this._onPlay(),
       'pause-button': () => this._onPause(),
       'reset-button': () => this._onReset(),
     };
@@ -36,6 +36,7 @@
   UI.PLAYING = 'state-playing';
   UI.PAUSED = 'state-paused';
   UI.ERROR = 'state-error';
+  UI.DONE = 'state-done';
 
   UI.prototype._onReset = function() {
     if (this._state === UI.PLAYING ||
@@ -43,9 +44,9 @@
       this._episode.close();
       this._episode = null;
       this._unregisterEvents();
-      this._setState(UI.NEEDS_RESET);
     }
-    if (this._state === UI.NEEDS_RESET) {
+    if (this._state === UI.NEEDS_RESET || this._state === UI.DONE ||
+        this._state === UI.PLAYING || this._state === UI.PAUSED) {
       this._setState(UI.RESETTING);
       this._env.reset().then((obj) => {
         this._setState(UI.PAUSED);
@@ -101,7 +102,7 @@
     this._episode.ondone = () => {
       this._episode = null;
       this._unregisterEvents();
-      this._setState(UI.NEEDS_RESET);
+      this._setState(UI.DONE);
     };
     this._episode.onreward = () => {
       this._score.textContent = this._episode.totalReward();

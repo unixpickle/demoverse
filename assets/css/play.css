@@ -1,9 +1,37 @@
 body {
   background-color: #d5d5d5;
+  font-family: sans-serif;
 }
 
-#loading, #error, #resetting, #controls, #canvas, #stats,
-#play-button, #pause-button {
+#canvas-container {
+  position: relative;
+}
+
+#canvas-container > * {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.canvas-overlay label {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: calc(50% - 25px);
+  width: 100%;
+  height: 50px;
+  font-size: 30px;
+  line-height: 50px;
+  color: white;
+  text-align: center;
+}
+
+#loading, #error, #resetting, #controls, #canvas-container, #stats,
+#play-button, #pause-button, #game-over-overlay, #paused-overlay {
   display: none;
 }
 
@@ -19,13 +47,18 @@ body {
   display: block;
 }
 
-.state-playing #controls, .state-playing #canvas, .state-playing #stats,
+.state-playing #controls, .state-playing #canvas-container, .state-playing #stats,
 .state-playing #pause-button {
   display: block;
 }
 
-.state-paused #controls, .state-paused #canvas, .state-paused #stats,
-.state-paused #play-button {
+.state-paused #controls, .state-paused #canvas-container, .state-paused #stats,
+.state-paused #paused-overlay {
+  display: block;
+}
+
+.state-done #controls, .state-done #canvas-container, .state-done #stats,
+  .state-done #game-over-overlay {
   display: block;
 }
 

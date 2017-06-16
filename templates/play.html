@@ -21,14 +21,22 @@
     <div id="controls">
       <button id="reset-button">Reset Game</button>
       <button id="pause-button">Pause</button>
-      <button id="play-button">Play</button>
     </div>
     <div id="stats">
       Total reward: <label id="score">0</label>
     </div>
-    <canvas id="canvas" width="{{.width}}" height="{{.height}}">
-      Your browser is too out of date.
-    </canvas>
+    <div id="canvas-container"
+         style="width: {{.width}}px; height: {{.height}}px">
+      <canvas id="canvas" width="{{.width}}" height="{{.height}}">
+        Your browser is too out of date.
+      </canvas>
+      <div id="game-over-overlay" class="canvas-overlay">
+        <label>Game Over</label>
+      </div>
+      <div id="paused-overlay" class="canvas-overlay">
+        <label>Click to Play</label>
+      </div>
+    </div>
     <div id="loading">Loading game...</div>
     <div id="resetting">Resetting...</div>
     <div id="error"></div>
