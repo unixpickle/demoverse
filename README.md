@@ -4,6 +4,5 @@ Demoverse records demonstrations for [µniverse](https://github.com/unixpickle/m
 
 # TODO
 
- * JavaScript API for WebSocket API.
  * JavaScript event recording & video streaming.
  * Event filtering to match policy parameterizations.

@@ -142,24 +142,24 @@ const (
 
 // envMessage is a message object for the environment API.
 type envMessage struct {
-	Type envMessageType
+	Type envMessageType `json:"type"`
 
 	// Used for Reset and Step responses.
-	Observation *string `json:",omitempty"`
+	Observation *string `json:"observation,omitempty"`
 
 	// Used for Step responses.
-	Reward float64
-	Done   bool
+	Reward float64 `json:"reward"`
+	Done   bool    `json:"done"`
 
 	// Used for Step requests.
-	Actions []*envAction `json:",omitempty"`
+	Actions []*envAction `json:"actions,omitempty"`
 
 	// Used for Error responses.
-	Error *string `json:",omitempty"`
+	Error *string `json:"error,omitempty"`
 }
 
 // An envAction is an action in the environment API.
 type envAction struct {
-	KeyEvent   *chrome.KeyEvent
-	MouseEvent *chrome.MouseEvent
+	KeyEvent   *chrome.KeyEvent   `json:"keyEvent"`
+	MouseEvent *chrome.MouseEvent `json:"mouseEvent"`
 }
