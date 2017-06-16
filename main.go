@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"path/filepath"
 	"regexp"
+	"sort"
+	"strings"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -55,6 +57,11 @@ func (s *Server) HandleRoot(w http.ResponseWriter, r *http.Request) {
 			"name": spec.Name,
 		})
 	}
+	sort.Slice(items, func(i int, j int) bool {
+		iName := items[i]["name"].(string)
+		jName := items[j]["name"].(string)
+		return strings.Compare(iName, jName) < 0
+	})
 	s.serveTemplate(w, "index", items)
 }
 
