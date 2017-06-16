@@ -75,6 +75,8 @@ body {
   width: 100%;
   color: white;
   text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
 .canvas-overlay h1 {
