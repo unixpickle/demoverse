@@ -17,13 +17,9 @@
     <link rel="stylesheet" href="/assets/css/play.css" type="text/css">
   </head>
   <body class="state-initializing">
-    <h1>Playing {{.name}}</h1>
-    <div id="controls">
-      <button id="reset-button">Reset Game</button>
+    <div id="header">
+      <h1>{{.name}}</h1>
       <button id="pause-button">Pause</button>
-    </div>
-    <div id="stats">
-      Total reward: <label id="score">0</label>
     </div>
     <div id="canvas-container"
          style="width: {{.width}}px; height: {{.height}}px">
@@ -31,14 +27,24 @@
         Your browser is too out of date.
       </canvas>
       <div id="game-over-overlay" class="canvas-overlay">
-        <label>Game Over</label>
+        <h1>Game Over</h1>
+        <h2>Click to reset</h2>
       </div>
       <div id="paused-overlay" class="canvas-overlay">
-        <label>Click to Play</label>
+        <h1>Game Paused</h1>
+        <h2>Click to play</h2>
+      </div>
+      <div id="resetting-overlay" class="canvas-overlay">
+        <h1>Resetting...</h1>
+      </div>
+      <div id="connecting-overlay" class="canvas-overlay">
+        <h1>Connecting...</h1>
       </div>
     </div>
-    <div id="loading">Loading game...</div>
-    <div id="resetting">Resetting...</div>
+    <br>
+    <div id="stats">
+      Total reward: <label id="score">0</label>
+    </div>
     <div id="error"></div>
   </body>
 </html>

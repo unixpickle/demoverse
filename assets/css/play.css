@@ -1,67 +1,116 @@
 body {
   background-color: #d5d5d5;
   font-family: sans-serif;
+  margin: 0;
+
+  text-align: center;
+}
+
+#header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  text-align: left;
+}
+
+#header h1 {
+  font-size: 25px;
+  line-height: 40px;
+  padding: 0 0 0 10px;
+  margin: 0;
+  font-weight: 300;
+}
+
+#pause-button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 30px;
+  height: 30px;
+  color: 0;
+  font-size: 0;
+  border: none;
+  background-color: transparent;
+  background-image: url('/assets/img/pause.svg');
+}
+
+#pause-button:focus {
+  outline: 0;
 }
 
 #canvas-container {
   position: relative;
+  display: inline-block;
+  margin-top: 50px;
 }
 
 #canvas-container > * {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
 }
 
 .canvas-overlay {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-.canvas-overlay label {
+.canvas-overlay h1, .canvas-overlay h2 {
   display: block;
   position: absolute;
   left: 0;
-  top: calc(50% - 25px);
   width: 100%;
-  height: 50px;
-  font-size: 30px;
-  line-height: 50px;
   color: white;
   text-align: center;
 }
 
-#loading, #error, #resetting, #controls, #canvas-container, #stats,
-#play-button, #pause-button, #game-over-overlay, #paused-overlay {
+.canvas-overlay h1 {
+  top: calc(50% - 25px);
+  height: 50px;
+  font-size: 30px;
+  line-height: 50px;
+}
+
+.canvas-overlay h2 {
+  top: calc(50% + 25px);
+  height: 30px;
+  font-size: 20px;
+  line-height: 30px;
+}
+
+#error, #stats, #pause-button, #game-over-overlay,
+#paused-overlay, #resetting-overlay, #connecting-overlay {
   display: none;
 }
 
-.state-initializing #loading {
+.state-initializing #connecting-overlay {
   display: block;
 }
 
-.state-needs-reset #controls {
+.state-resetting #resetting-overlay {
   display: block;
 }
 
-.state-resetting #resetting {
+.state-playing #stats, .state-playing #pause-button {
   display: block;
 }
 
-.state-playing #controls, .state-playing #canvas-container, .state-playing #stats,
-.state-playing #pause-button {
+.state-paused #stats, .state-paused #paused-overlay {
   display: block;
 }
 
-.state-paused #controls, .state-paused #canvas-container, .state-paused #stats,
-.state-paused #paused-overlay {
-  display: block;
-}
-
-.state-done #controls, .state-done #canvas-container, .state-done #stats,
-  .state-done #game-over-overlay {
+.state-done #stats, .state-done #game-over-overlay {
   display: block;
 }
 
 .state-error #error {
   display: block;
+}
+
+.state-error #canvas-container {
+  display: none;
 }
