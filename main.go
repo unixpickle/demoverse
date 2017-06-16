@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"regexp"
 	"sort"
@@ -21,6 +22,7 @@ type Server struct {
 
 	AssetDir    string
 	TemplateDir string
+	OutputDir   string
 
 	FrameTime time.Duration
 
@@ -32,8 +34,20 @@ func main() {
 	flag.StringVar(&server.ListenAddr, "addr", ":8080", "address to listen on")
 	flag.StringVar(&server.AssetDir, "assets", "assets", "asset directory path")
 	flag.StringVar(&server.TemplateDir, "templates", "templates", "template directory path")
+	flag.StringVar(&server.OutputDir, "outdir", "recordings", "recordings directory")
 	flag.DurationVar(&server.FrameTime, "frametime", time.Second/10, "time per frame")
 	flag.Parse()
+
+	if info, err := os.Stat(server.OutputDir); os.IsNotExist(err) {
+		if err := os.Mkdir(server.OutputDir, 0755); err != nil {
+			essentials.Die(err)
+		}
+		log.Println("created directory:", server.OutputDir)
+	} else if err != nil {
+		essentials.Die(err)
+	} else if !info.IsDir() {
+		essentials.Die("not a directory:", server.OutputDir)
+	}
 
 	http.HandleFunc("/", server.HandleRoot)
 	http.HandleFunc("/play/", server.HandlePlay)

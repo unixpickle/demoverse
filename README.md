@@ -5,4 +5,3 @@ Demoverse records demonstrations for [µniverse](https://github.com/unixpickle/m
 # TODO
 
  * Event filtering to match policy parameterizations.
- * Save recordings to disk.

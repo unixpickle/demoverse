@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"path/filepath"
 
 	"github.com/gorilla/websocket"
 	"github.com/unixpickle/essentials"
@@ -59,6 +60,8 @@ func (e *EnvHandler) reset() (err error) {
 		if err != nil {
 			return err
 		}
+		envDir := filepath.Join(e.Server.OutputDir, e.Spec.Name)
+		e.env = muniverse.RecordEnv(e.env, envDir)
 	}
 	if err = e.env.Reset(); err != nil {
 		return err
