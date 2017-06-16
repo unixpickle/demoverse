@@ -39,7 +39,7 @@
         removeEvents();
         var parsed;
         try {
-          var parsed = JSON.parse(m.data);
+          parsed = JSON.parse(m.data);
         } catch (e) {
           reject(e);
           return;
@@ -51,12 +51,20 @@
         }
       };
       this._ws.addEventListener('error', onError);
+      this._ws.addEventListener('message', onMessage);
+      try {
+        this._ws.send(JSON.stringify(msg));
+      } catch (e) {
+        removeEvents();
+        reject(e);
+        return;
+      }
     });
   };
 
   window.connectEnv = function(name) {
-    return Promise.resolve(function(resolve, reject) {
-      var wsProto = 'ws://'
+    return new Promise((resolve, reject) => {
+      var wsProto = 'ws://';
       if (location.protocol === 'https:') {
         wsProto = 'wss://';
       }
@@ -80,18 +88,18 @@
         'mousemove': 'mouseMoved'
       };
       var keyTypes = {
-        "keydown": "keyDown",
-        "keyup": "keyUp";
+        'keydown': 'keyDown',
+        'keyup': 'keyUp'
       };
       if (mouseTypes[e.type] && e.button === 0) {
         actions.push({
           mouseEvent: {
-            type: mouseTypes[e.type];
+            type: mouseTypes[e.type],
             x: e.offsetX,
             y: e.offsetY,
             button: 'left',
             clickCount: e.detail
-          };
+          }
         });
       } else if (keyTypes[e.type] && !e.shiftKey && !e.metaKey &&
                  !e.ctrlKey && !e.altKey) {

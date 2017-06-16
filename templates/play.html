@@ -4,12 +4,33 @@
     <meta charset="utf-8">
     <title>Demoverse {{.name}}</title>
 
+    <script type="application/javascript">
+    window.spec = {
+      name: "{{.name}}",
+      interval: {{.interval}},
+    };
+    </script>
+    <script src="/assets/js/env.js"></script>
+    <script src="/assets/js/episode.js"></script>
+    <script src="/assets/js/ui.js"></script>
+
     <link rel="stylesheet" href="/assets/css/play.css" type="text/css">
   </head>
-  <body>
+  <body class="state-initializing">
     <h1>Playing {{.name}}</h1>
-    <!-- TODO: pause & reset button -->
-    <!-- TODO: score graph -->
-    <!-- TODO: <canvas> with current game UI here. -->
+    <div id="controls">
+      <button id="reset-button">Reset Game</button>
+      <button id="pause-button">Pause</button>
+      <button id="play-button">Play</button>
+    </div>
+    <div id="stats">
+      Total reward: <label id="score">0</label>
+    </div>
+    <canvas id="canvas" width="{{.width}}" height="{{.height}}">
+      Your browser is too out of date.
+    </canvas>
+    <div id="loading">Loading game...</div>
+    <div id="resetting">Resetting...</div>
+    <div id="error"></div>
   </body>
 </html>

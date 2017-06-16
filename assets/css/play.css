@@ -1,3 +1,34 @@
 body {
   background-color: #d5d5d5;
 }
+
+#loading, #error, #resetting, #controls, #canvas, #stats,
+#play-button, #pause-button {
+  display: none;
+}
+
+.state-initializing #loading {
+  display: block;
+}
+
+.state-needs-reset #controls {
+  display: block;
+}
+
+.state-resetting #resetting {
+  display: block;
+}
+
+.state-playing #controls, .state-playing #canvas, .state-playing #stats,
+.state-playing #pause-button {
+  display: block;
+}
+
+.state-paused #controls, .state-paused #canvas, .state-paused #stats,
+.state-paused #play-button {
+  display: block;
+}
+
+.state-error #error {
+  display: block;
+}

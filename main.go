@@ -66,7 +66,11 @@ func (s *Server) HandlePlay(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	item := map[string]interface{}{
-		"name": spec.Name,
+		"name":     spec.Name,
+		"width":    spec.Width,
+		"height":   spec.Height,
+		"keys":     spec.KeyWhitelist,
+		"interval": int(s.FrameTime / time.Millisecond),
 	}
 	s.serveTemplate(w, "play", item)
 }
@@ -109,7 +113,7 @@ func (s *Server) serveTemplate(w http.ResponseWriter, name string, data interfac
 }
 
 func (s *Server) pathEnvName(r *http.Request) string {
-	expr := regexp.MustCompile("^/[a-z]*/([A-Za-z0-9-]*)/$")
+	expr := regexp.MustCompile("^/[a-z]*/([A-Za-z0-9-]*)/?$")
 	submatch := expr.FindStringSubmatch(r.URL.Path)
 	if submatch == nil {
 		return ""

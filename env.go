@@ -63,6 +63,7 @@ func (e *EnvHandler) reset() (err error) {
 	if err = e.env.Reset(); err != nil {
 		return err
 	}
+	e.done = false
 
 	msg, err := e.messageWithObs(resetMessage)
 	if err != nil {
@@ -84,7 +85,7 @@ func (e *EnvHandler) step(msg *envMessage) (err error) {
 			events = append(events, evt.MouseEvent)
 		}
 	}
-	reward, done, err := e.env.Step(e.Server.FrameTime, events)
+	reward, done, err := e.env.Step(e.Server.FrameTime, events...)
 	if err != nil {
 		return err
 	}
