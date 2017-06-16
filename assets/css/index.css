@@ -1,3 +1,75 @@
-body {
+html, body {
   background-color: #d5d5d5;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+#container {
+  padding: 5px 0;
+  display: inline-block;
+  position: absolute;
+}
+
+@media (max-width: 532px) {
+  #container {
+    width: 266px;
+    left: calc(50% - 133px);
+  }
+}
+
+@media (max-width: 798px) and (min-width: 532px) {
+  #container {
+    width: 532px;
+    left: calc(50% - 266px);
+  }
+}
+
+@media (min-width: 798px) {
+  #container {
+    width: 798px;
+    left: calc(50% - 399px);
+  }
+}
+
+.game {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 256px;
+  height: 296px;
+  background-color: white;
+  margin: 5px;
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+}
+
+.game:hover {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  transform: scale(1.01);
+}
+
+.game .preview {
+  display: block;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 236px;
+  height: 236px;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+.game .name {
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  text-align: center;
+  height: 30px;
+  width: 236px;
+  line-height: 30px;
+  overflow: hidden;
+  text-decoration: none;
+  color: #777;
+  pointer-events: none;
 }

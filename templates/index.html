@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="/assets/css/index.css" type="text/css">
   </head>
   <body>
-    {{range .}}
-    <a class="game" href="/play/{{.name}}/">{{.name}}</a>
-    <br>
-    {{end}}
+    <div id="container">
+      {{range . -}}
+      <a class="game" href="/play/{{.name}}/">
+        <div class="preview"
+             style="background-image: url('assets/screenshots/{{.name}}.png')"></div>
+        <label class="name">{{.name}}</label>
+      </a>
+      {{- end}}
+    </div>
   </body>
 </html>
