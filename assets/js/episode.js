@@ -55,6 +55,7 @@
         if (this._playing) {
           this._scheduleTimeout();
         }
+        this._totalReward += msg.reward;
         this.onobs(msg.observation);
         this.onreward(msg.reward);
         if (msg.done) {
@@ -65,6 +66,7 @@
         this.onerror(e);
         this.close();
       });
+      this._events = [];
     }, remaining);
   };
 

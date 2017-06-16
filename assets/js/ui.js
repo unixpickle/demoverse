@@ -1,5 +1,7 @@
 (function() {
 
+  var EVENTS = ['mousedown', 'mouseup', 'mousemove', 'keydown', 'keyup'];
+
   function UI() {
     this._state = UI.INITIALIZING;
     this._episode = null;
@@ -7,6 +9,8 @@
     this._canvas = document.getElementById('canvas');
     this._error = document.getElementById('error');
     this._score = document.getElementById('score');
+
+    this._eventHandler = (e) => this._gotEvent(e);
 
     var butToEvt = {
       'play-button': () => this._onPlay(),
@@ -37,6 +41,7 @@
         this._state === UI.PAUSED) {
       this._episode.close();
       this._episode = null;
+      this._unregisterEvents();
       this._setState(UI.NEEDS_RESET);
     }
     if (this._state === UI.NEEDS_RESET) {
@@ -55,6 +60,7 @@
     if (this._state === UI.PAUSED) {
       this._setState(UI.PLAYING);
       this._episode.play();
+      this._registerEvents();
     }
   };
 
@@ -62,6 +68,7 @@
     if (this._state === UI.PLAYING) {
       this._setState(UI.PAUSED);
       this._episode.pause();
+      this._unregisterEvents();
     }
   };
 
@@ -76,18 +83,23 @@
   };
 
   UI.prototype._showObs = function(obs) {
-    var ctx = this._canvas.getContext('2d');
-    var image = new Image();
-    image.onload = function() {
-      ctx.drawImage(image, 0, 0);
+    if (this._pendingImage) {
+      this._pendingImage.onload = () => false;
+    }
+    this._pendingImage = new Image();
+    this._pendingImage.onload = () => {
+      var ctx = this._canvas.getContext('2d');
+      ctx.drawImage(this._pendingImage, 0, 0);
+      this._pendingImage = null;
     };
-    image.src = 'data:image/png;base64,' + obs;
+    this._pendingImage.src = 'data:image/png;base64,' + obs;
   };
 
   UI.prototype._createEpisode = function() {
     this._episode = new window.Episode(this._env);
     this._episode.ondone = () => {
       this._episode = null;
+      this._unregisterEvents();
       this._setState(UI.NEEDS_RESET);
     };
     this._episode.onreward = () => {
@@ -95,6 +107,24 @@
     };
     this._episode.onobs = (obs) => this._showObs(obs);
     this._episode.onerror = (e) => this._handleError(e);
+  };
+
+  UI.prototype._gotEvent = function(e) {
+    if (this._episode) {
+      this._episode.pushEvent(e);
+    }
+  };
+
+  UI.prototype._registerEvents = function() {
+    EVENTS.forEach((evt) => {
+      this._canvas.addEventListener(evt, this._eventHandler);
+    });
+  };
+
+  UI.prototype._unregisterEvents = function() {
+    EVENTS.forEach((evt) => {
+      this._canvas.removeEventListener(evt, this._eventHandler);
+    });
   };
 
   window.addEventListener('load', function() {
