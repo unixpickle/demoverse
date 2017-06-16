@@ -9,6 +9,9 @@
       this._error = this._error || 'connection closed';
     };
     this._ws = ws;
+
+    this._runningCall = false;
+    this._pendingCalls = [];
   }
 
   Env.prototype.reset = function() {
@@ -21,6 +24,31 @@
   };
 
   Env.prototype._call = function(msg) {
+    if (!this._runningCall) {
+      this._runningCall = true;
+      var res = this._callPromise(msg);
+      var callNext = () => {
+        if (this._pendingCalls.length > 0) {
+          var first = this._pendingCalls[0];
+          this._pendingCalls.splice(0, 1);
+          first();
+        } else {
+          this._runningCall = false;
+        }
+      };
+      res.then(callNext).catch(callNext);
+      return res;
+    }
+
+    return new Promise((resolve, reject) => {
+      this._pendingCalls.push(() => {
+        this._runningCall = false;
+        this._call(msg).then(resolve).catch(reject);
+      });
+    });
+  };
+
+  Env.prototype._callPromise = function(msg) {
     return new Promise((resolve, reject) => {
       if (this._error) {
         reject(this._error);
