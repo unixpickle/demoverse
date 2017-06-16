@@ -4,6 +4,5 @@ Demoverse records demonstrations for [µniverse](https://github.com/unixpickle/m
 
 # TODO
 
- * JavaScript event recording.
  * Event filtering to match policy parameterizations.
  * Save recordings to disk.
