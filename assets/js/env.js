@@ -133,14 +133,16 @@
                  !e.ctrlKey && !e.altKey) {
         var text = (e.key.length === 1 ? e.key : '');
         actions.push({
-          type: keyTypes[e.type],
-          text: text,
-          unmodifiedText: text,
-          keyIdentifier: e.keyIdentifier,
-          code: e.code,
-          key: e.key,
-          windowsVirtualKeyCode: e.keyCode,
-          nativeVirtualKeyCode: e.keyCode
+          keyEvent: {
+            type: keyTypes[e.type],
+            text: text,
+            unmodifiedText: text,
+            keyIdentifier: e.keyIdentifier,
+            code: e.code,
+            key: e.key,
+            windowsVirtualKeyCode: e.keyCode,
+            nativeVirtualKeyCode: e.keyCode
+          }
         });
       }
     });

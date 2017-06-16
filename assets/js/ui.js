@@ -1,6 +1,7 @@
 (function() {
 
-  var EVENTS = ['mousedown', 'mouseup', 'mousemove', 'keydown', 'keyup'];
+  var MOUSE_EVENTS = ['mousedown', 'mouseup', 'mousemove'];
+  var KEY_EVENTS = ['keydown', 'keyup'];
 
   function UI() {
     this._state = UI.INITIALIZING;
@@ -116,14 +117,20 @@
   };
 
   UI.prototype._registerEvents = function() {
-    EVENTS.forEach((evt) => {
+    MOUSE_EVENTS.forEach((evt) => {
       this._canvas.addEventListener(evt, this._eventHandler);
+    });
+    KEY_EVENTS.forEach((evt) => {
+      window.addEventListener(evt, this._eventHandler);
     });
   };
 
   UI.prototype._unregisterEvents = function() {
-    EVENTS.forEach((evt) => {
+    MOUSE_EVENTS.forEach((evt) => {
       this._canvas.removeEventListener(evt, this._eventHandler);
+    });
+    KEY_EVENTS.forEach((evt) => {
+      window.removeEventListener(evt, this._eventHandler);
     });
   };
 
