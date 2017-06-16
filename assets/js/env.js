@@ -54,10 +54,11 @@
         reject(this._error);
         return;
       }
-      var onError, onMessage;
+      var onError, onMessage, onClose;
       var removeEvents = () => {
         this._ws.removeEventListener('error', onError);
         this._ws.removeEventListener('message', onMessage);
+        this._ws.removeEventListener('close', onClose);
       };
       onError = (e) => {
         removeEvents();
@@ -78,8 +79,13 @@
           resolve(parsed);
         }
       };
+      onClose = () => {
+        removeEvents();
+        reject('connection closed');
+      };
       this._ws.addEventListener('error', onError);
       this._ws.addEventListener('message', onMessage);
+      this._ws.addEventListener('close', onClose);
       try {
         this._ws.send(JSON.stringify(msg));
       } catch (e) {

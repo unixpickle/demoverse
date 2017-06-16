@@ -55,6 +55,15 @@ body {
   left: 0;
 }
 
+#error {
+  margin-top: 50px;
+  width: 200px;
+  padding: 30px;
+  color: red;
+  background-color: white;
+  font-size: 20px;
+}
+
 .canvas-overlay {
   background-color: rgba(0, 0, 0, 0.7);
 }
@@ -108,7 +117,7 @@ body {
 }
 
 .state-error #error {
-  display: block;
+  display: inline-block;
 }
 
 .state-error #canvas-container {
