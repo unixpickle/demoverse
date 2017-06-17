@@ -46,8 +46,10 @@
   };
 
   Episode.prototype._scheduleTimeout = function() {
-    var sinceLast = new Date().getTime() - this._lastUpdate;
+    var now = new Date().getTime();
+    var sinceLast = now - this._lastUpdate;
     var remaining = Math.max(1, window.spec.interval-sinceLast);
+    this._lastUpdate = now;
     this._timeout = setTimeout(() => {
       this._timeout = null;
       this._promise = this._env.step(this._events).then((msg) => {
