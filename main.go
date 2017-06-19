@@ -25,6 +25,7 @@ type Server struct {
 	OutputDir   string
 
 	FrameTime time.Duration
+	Cursor    bool
 
 	Templates *template.Template
 }
@@ -36,6 +37,7 @@ func main() {
 	flag.StringVar(&server.TemplateDir, "templates", "templates", "template directory path")
 	flag.StringVar(&server.OutputDir, "outdir", "recordings", "recordings directory")
 	flag.DurationVar(&server.FrameTime, "frametime", time.Second/10, "time per frame")
+	flag.BoolVar(&server.Cursor, "cursor", false, "render cursor")
 	flag.Parse()
 
 	if info, err := os.Stat(server.OutputDir); os.IsNotExist(err) {

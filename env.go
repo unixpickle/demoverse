@@ -60,6 +60,9 @@ func (e *EnvHandler) reset() (err error) {
 		if err != nil {
 			return err
 		}
+		if e.Server.Cursor {
+			e.env = muniverse.CursorEnv(e.env, e.Spec.Width/2, e.Spec.Height/2)
+		}
 		envDir := filepath.Join(e.Server.OutputDir, e.Spec.Name)
 		e.env = muniverse.RecordEnv(e.env, envDir)
 	}
