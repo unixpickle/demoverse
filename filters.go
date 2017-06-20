@@ -156,7 +156,7 @@ func (f *filteredEnv) deltaFilter(events []interface{}) []interface{} {
 			} else {
 				evt.Type = chrome.KeyUp
 			}
-			newEvents = append(newEvents, evt)
+			newEvents = append(newEvents, &evt)
 		}
 	}
 
