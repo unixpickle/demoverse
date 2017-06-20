@@ -65,6 +65,7 @@ func (e *EnvHandler) reset() (err error) {
 		}
 		envDir := filepath.Join(e.Server.OutputDir, e.Spec.Name)
 		e.env = muniverse.RecordEnv(e.env, envDir)
+		e.env = FilterEnv(e.env, &e.Server.Filter)
 	}
 	if err = e.env.Reset(); err != nil {
 		return err

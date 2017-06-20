@@ -26,6 +26,7 @@ type Server struct {
 
 	FrameTime time.Duration
 	Cursor    bool
+	Filter    EventFilter
 
 	Templates *template.Template
 }
@@ -38,6 +39,7 @@ func main() {
 	flag.StringVar(&server.OutputDir, "outdir", "recordings", "recordings directory")
 	flag.DurationVar(&server.FrameTime, "frametime", time.Second/10, "time per frame")
 	flag.BoolVar(&server.Cursor, "cursor", false, "render cursor")
+	flag.Var(&server.Filter, "filter", "event filter (NoFilter or DeltaFilter)")
 	flag.Parse()
 
 	if info, err := os.Stat(server.OutputDir); os.IsNotExist(err) {
