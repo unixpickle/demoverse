@@ -28,6 +28,9 @@ type Server struct {
 	Cursor    bool
 	Filter    EventFilter
 
+	CustomImage    string
+	CustomGamesDir string
+
 	Templates *template.Template
 }
 
@@ -40,7 +43,13 @@ func main() {
 	flag.DurationVar(&server.FrameTime, "frametime", time.Second/10, "time per frame")
 	flag.BoolVar(&server.Cursor, "cursor", false, "render cursor")
 	flag.Var(&server.Filter, "filter", "event filter (NoFilter or DeltaFilter)")
+	flag.StringVar(&server.CustomImage, "image", "", "custom docker image")
+	flag.StringVar(&server.CustomGamesDir, "gamesdir", "", "custom games directory")
 	flag.Parse()
+
+	if server.CustomImage != "" && server.CustomGamesDir != "" {
+		essentials.Die("Cannot use -image and -gamesdir together.")
+	}
 
 	if info, err := os.Stat(server.OutputDir); os.IsNotExist(err) {
 		if err := os.Mkdir(server.OutputDir, 0755); err != nil {

@@ -56,7 +56,13 @@ func (e *EnvHandler) Handle() error {
 func (e *EnvHandler) reset() (err error) {
 	defer essentials.AddCtxTo("reset", &err)
 	if e.env == nil {
-		e.env, err = muniverse.NewEnv(e.Spec)
+		if e.Server.CustomImage != "" {
+			e.env, err = muniverse.NewEnvContainer(e.Server.CustomImage, e.Spec)
+		} else if e.Server.CustomGamesDir != "" {
+			e.env, err = muniverse.NewEnvGamesDir(e.Server.CustomGamesDir, e.Spec)
+		} else {
+			e.env, err = muniverse.NewEnv(e.Spec)
+		}
 		if err != nil {
 			return err
 		}
