@@ -118,6 +118,22 @@ func (f *filteredEnv) deltaFilter(events []interface{}) []interface{} {
 	}
 
 	var newEvents []interface{}
+	if newMousePressed != f.mousePressed {
+		f.mousePressed = newMousePressed
+		evt := &chrome.MouseEvent{
+			Type:   chrome.MousePressed,
+			X:      f.mouseX,
+			Y:      f.mouseY,
+			Button: chrome.LeftButton,
+
+			// TODO: better way to compute if clicked.
+			ClickCount: 1,
+		}
+		if !newMousePressed {
+			evt.Type = chrome.MouseReleased
+		}
+		newEvents = append(newEvents, evt)
+	}
 	if newX != f.mouseX || newY != f.mouseY {
 		f.mouseX, f.mouseY = newX, newY
 		evt := &chrome.MouseEvent{
@@ -127,22 +143,6 @@ func (f *filteredEnv) deltaFilter(events []interface{}) []interface{} {
 		}
 		if f.mousePressed {
 			evt.Button = chrome.LeftButton
-		}
-		newEvents = append(newEvents, evt)
-	}
-	if newMousePressed != f.mousePressed {
-		f.mousePressed = newMousePressed
-		evt := &chrome.MouseEvent{
-			Type:   chrome.MousePressed,
-			X:      newX,
-			Y:      newY,
-			Button: chrome.LeftButton,
-
-			// TODO: better way to compute if clicked.
-			ClickCount: 1,
-		}
-		if !newMousePressed {
-			evt.Type = chrome.MouseReleased
 		}
 		newEvents = append(newEvents, evt)
 	}
